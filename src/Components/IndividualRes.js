@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Image, Dimensions, View, Text, BackHandler } from 'react-native'
+import { Image, Dimensions,Linking, View, Text, BackHandler } from 'react-native'
 import { Button } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -32,7 +32,7 @@ export default function IndividualRes({ route, navigation }) {
             }}>
                 <Text style={{
                     fontSize: 40
-                }}>{item["title"]}</Text>
+                }}>{item["resName"]}</Text>
                 <Icon onPress={() => navigation.navigate('Scanner')} name="qrcode" size={40} color="#900" />
             </View>
             <View style={{
@@ -40,7 +40,7 @@ export default function IndividualRes({ route, navigation }) {
                 alignItems: 'center',
             }}>
                 <Image
-                    source={{ uri: item["image"] }}
+                    source={{ uri: item["resImage"] }}
                     style={{
                         width: Dimensions.get('window').width - 20,
                         height: Dimensions.get('window').width * 0.6,
@@ -53,10 +53,18 @@ export default function IndividualRes({ route, navigation }) {
                 }}>Description:</Text>
                 <Text style={{
                     fontSize: 20,
-                }}>{item["description"]}</Text>
+                }}>{item["resDescription"]}</Text>
             </View>
             <View style={{ paddingHorizontal: 10 }}>
-                <Button>Get Direction</Button>
+                <Button onPress={()=>{
+    //                 Linking.canOpenURL(item["resMapLink"]).then(supported => {
+    //   if (supported) {
+        Linking.openURL(item["resMapLink"]);
+    //   } else {
+    //     console.log("Don't know how to open URI: " + item["resMapLink"]);
+    //   }
+    // });
+                }}>Get Direction</Button>
             </View>
         </View>
     )
