@@ -76,7 +76,7 @@ function HomePage({ navigation }) {
     useEffect(() => {
         console.log("useEffect")
         getRestaurant();
-    },[])
+    }, [])
 
     useEffect(() => {
         const backAction = () => {
@@ -96,7 +96,7 @@ function HomePage({ navigation }) {
             backAction
         );
 
-        return () => backHandler.remove();
+        // return () => backHandler.remove();
     }, []);
 
 
@@ -127,7 +127,7 @@ function HomePage({ navigation }) {
                     </View>
                 </View>
                 <View>
-                    <Icon name="qrcode" size={40} color="#900" />
+                    <Icon name="qrcode" onPress={() => navigation.navigate('Scanner')} size={40} color="#900" />
                 </View>
             </View>
             <View style={{
