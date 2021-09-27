@@ -22,7 +22,7 @@ export default function SelectedRes({ navigation, route }) {
             redirect: 'follow'
         };
 
-        fetch(`${API}getRestaurantById?id=${code}`, requestOptions)
+        fetch(`${API}getRestaurantById/${code}`, requestOptions)
             .then(response => response.json())
             .then(result => {
                 console.log(result["resName"], result["resDiscount"]);
@@ -65,7 +65,7 @@ export default function SelectedRes({ navigation, route }) {
                 }}>Have you grab any 🍔☕? </Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
-                <Button onPress={() => { navigation.navigate('PositiveScreen', { resDiscount: resDiscount }) }}>Yes</Button>
+                <Button onPress={() => { navigation.navigate('PositiveScreen', { resUniqueID: code, resName: resName, resDiscount: resDiscount }) }}>Yes</Button>
                 <Button onPress={() => navigation.navigate('HomePage')}>No</Button>
             </View>
         </View>

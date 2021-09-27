@@ -4,7 +4,7 @@ import { TextInput, Button } from 'react-native-paper'
 
 export default function PositiveScreen({ route, navigation }) {
     const [amount, setAmount] = React.useState('');
-    const { resDiscount } = route.params;
+    const { resDiscount, resUniqueID, resName } = route.params;
     console.log(resDiscount);
     return (
         <View style={{
@@ -25,7 +25,7 @@ export default function PositiveScreen({ route, navigation }) {
             />
             <View style={{ flexDirection: 'row' }}>
                 <Button onPress={() => navigation.goBack()}>Cancel</Button>
-                <Button onPress={() => navigation.navigate('SuccessScreen', { billAmount: parseInt(amount), resDiscount: parseInt(resDiscount) })} >Submit</Button>
+                <Button onPress={() => navigation.navigate('SuccessScreen', { resName: resName, resUniqueID: resUniqueID, billAmount: parseInt(amount), resDiscount: parseInt(resDiscount) })} >Submit</Button>
             </View>
         </View>
     )

@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react'
 import { View, Text, Dimensions, BackHandler } from 'react-native'
 import { Button } from 'react-native-paper'
+import { API } from '../Backend'
 
 export default function SuccessScreen({ navigation, route }) {
-    const { resDiscount, billAmount } = route.params
+    const { resDiscount, billAmount, resName, resUniqueID } = route.params
     const [payableAmount, setPayableAmount] = React.useState(0)
     useEffect(() => {
         console.log(resDiscount, billAmount)
         let amount = (billAmount * resDiscount) / 100
-        setPayableAmount(billAmount - amount)
+        let payableAmountIs = billAmount - amount
+        setPayableAmount(payableAmountIs)
         const backAction = () => {
             navigation.navigate('HomePage')
             return true
@@ -18,7 +20,32 @@ export default function SuccessScreen({ navigation, route }) {
             "hardwareBackPress",
             backAction
         );
-        // return () => backHandler.remove();
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var raw = JSON.stringify({
+            "uniqueResId": resUniqueID,
+            "resName": resName,
+            "billAmount": billAmount,
+            "billDiscount": resDiscount,
+            "discountGiven": billAmount - payableAmountIs,
+            "payableAmount": payableAmountIs,
+            "timeOfTransaction": new Date().toLocaleString(),
+            "dateOfTransaction": new Date().toLocaleDateString(),
+            "userLocation": "null",
+        });
+        console.log(raw)
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(`${API}addTransaction`, requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
     }, []);
     return (
         <View style={{
